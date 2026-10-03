@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="PushUp Pal counts push-ups and encourages great form." />
+    <title>PushUp Pal | Move, count, celebrate</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="./">
+          <span class="brand-mark" aria-hidden="true">✦</span>
+          <span>PushUp <strong>Pal</strong></span>
+        </a>
+        <div class="topbar-actions">
+          <span class="connection-status" id="connectionStatus"><span></span> Ready to move</span>
+          {% if current_user.is_authenticated %}
+            <a class="text-link" href="/progress">Progress</a>
+            <a class="text-link" href="/logout">Log out</a>
+          {% else %}
+            <a class="text-link" href="/login">Log in</a>
+          {% endif %}
+        </div>
+      </header>
+
+      <section class="hero">
+        <div>
+          <p class="eyebrow">Your movement adventure</p>
+          <h1>Build strength.<br /><span>Have fun doing it.</span></h1>
+          <p class="hero-copy">Your camera counts every good push-up and gives you friendly tips in real time.</p>
+        </div>
+        <div class="mission-card" aria-label="Today's mission">
+          <div class="mission-icon">🏆</div>
+          <div>
+            <p class="eyebrow">Today's mission</p>
+            <strong id="missionText">Complete 20 push-ups</strong>
+            <div class="progress-track"><span id="missionProgress"></span></div>
+            <small><span id="missionCount">0</span> / 20 completed</small>
+          </div>
+        </div>
+      </section>
+
+      <section class="workout-layout" aria-label="Push-up workout">
+        <div class="camera-card">
+          <div class="camera-header">
+            <div>
+              <p class="eyebrow">Live form coach</p>
+              <h2>Get into position</h2>
+            </div>
+            <span class="camera-badge" id="cameraBadge">Camera off</span>
+          </div>
+          <div class="camera-frame" id="cameraFrame">
+            <video id="webcam" autoplay playsinline muted></video>
+            <canvas id="overlay" width="640" height="480"></canvas>
+            <div class="camera-placeholder" id="cameraPlaceholder">
+              <div class="placeholder-icon">📷</div>
+              <strong>See your whole body</strong>
+              <span>Place the camera to your side, then press Start.</span>
+            </div>
+            <div class="camera-error" id="cameraError" hidden>
+              <strong>We could not start the camera</strong>
+              <span id="cameraErrorText">Please allow camera access and try again.</span>
+              <button class="button button-small" id="retryBtn">Try again</button>
+            </div>
+          </div>
+          <div class="camera-tip"><span>💡</span> Keep your shoulders, hips and feet visible.</div>
+        </div>
+
+        <aside class="stats-panel">
+          <div class="stat-card stat-card-primary">
+            <div class="stat-label">Valid reps</div>
+            <div class="rep-number" id="repCount">0</div>
+            <div class="stat-subtext">Keep going!</div>
+          </div>
+          <div class="stat-grid">
+            <div class="stat-card">
+              <div class="stat-label">Time</div>
+              <strong id="timer">00:00</strong>
+            </div>
+            <div class="stat-card">
+              <div class="stat-label">Movement</div>
+              <strong class="stage-value" id="stage">Ready</strong>
+            </div>
+          </div>
+          <div class="feedback-card" id="feedbackCard" data-tone="neutral">
+            <span class="feedback-icon" id="feedbackIcon">👋</span>
+            <div>
+              <strong id="feedbackTitle">Ready when you are</strong>
+              <p id="feedback">Start a workout to get live coaching.</p>
+            </div>
+          </div>
+          <button class="button button-primary" id="startBtn"><span>▶</span> Start workout</button>
+          <button class="button button-stop" id="stopBtn" disabled>Finish workout</button>
+        </aside>
+      </section>
+
+      <section class="how-it-works">
+        <div class="section-heading">
+          <p class="eyebrow">Simple as 1, 2, 3</p>
+          <h2>How it works</h2>
+        </div>
+        <div class="steps">
+          <div class="step"><span>1</span><div><strong>Set up</strong><p>Put the camera sideways and show your full body.</p></div></div>
+          <div class="step"><span>2</span><div><strong>Calibrate</strong><p>Hold your position while PushUp Pal learns your movement.</p></div></div>
+          <div class="step"><span>3</span><div><strong>Move!</strong><p>Get a rep for each controlled push-up with good form.</p></div></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="modal-backdrop" id="summaryModal" hidden>
+      <section class="summary-modal" role="dialog" aria-modal="true" aria-labelledby="summaryTitle">
+        <button class="modal-close" id="closeSummary" aria-label="Close">×</button>
+        <div class="celebration" id="summaryIcon">🎉</div>
+        <p class="eyebrow">Workout complete</p>
+        <h2 id="summaryTitle">You did it!</h2>
+        <p class="summary-message" id="summaryMessage">Every rep is a win. Ready for another round?</p>
+        <div class="summary-stats">
+          <div><strong id="summaryReps">0</strong><span>valid reps</span></div>
+          <div><strong id="summaryTime">00:00</strong><span>duration</span></div>
+        </div>
+        <button class="button button-primary" id="againBtn">Start again</button>
+      </section>
+    </div>
+    <script type="module" src="{{ url_for('static', filename='app.js') }}"></script>
+  </body>
+</html>

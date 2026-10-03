@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Users | PushUp Pal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body class="admin-page">
+    <main class="admin-shell">
+      <header class="admin-header">
+        <div><p class="eyebrow">Administrator</p><h1>Registered users</h1></div>
+        <a class="text-link" href="/">Back to app</a>
+      </header>
+      <div class="admin-card">
+        {% if users %}
+          <table>
+            <thead><tr><th>ID</th><th>Email</th><th>Workouts</th><th>Total push-ups</th></tr></thead>
+            <tbody>
+            {% for user in users %}
+              <tr><td class="number">{{ user.id }}</td><td>{{ user.email }}</td>
+              <td>{{ user.workouts }}</td><td>{{ user.repetitions }}</td></tr>
+            {% endfor %}
+            </tbody>
+          </table>
+        {% else %}<div class="empty">No users have registered yet.</div>{% endif %}
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} | PushUp Pal</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  </head>
+  <body class="auth-page">
+    <main class="auth-card">
+      <a class="brand" href="/">
+        <span class="brand-mark" aria-hidden="true">✦</span>
+        <span>PushUp <strong>Pal</strong></span>
+      </a>
+      <p class="eyebrow">Your movement adventure</p>
+      <h1>{{ title }}</h1>
+      <form method="post">
+        <label>Email<input type="email" name="email" autocomplete="email" required></label>
+        <label>Password<input type="password" name="password" autocomplete="{{ autocomplete }}" required></label>
+        <button type="submit">{{ action }}</button>
+      </form>
+      {% if error %}<p class="form-error" role="alert">{{ error }}</p>{% endif %}
+      <p class="alternate-link"><a href="{{ alternate_url }}">{{ alternate_text }}</a></p>
+    </main>
+  </body>
+</html>
